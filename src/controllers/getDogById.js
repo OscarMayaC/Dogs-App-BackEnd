@@ -3,7 +3,7 @@ const { Dog } = require("../db.js");
 const { API_KEY } = process.env;
 
 
-const getDoyById = async (req, res) => {
+const getDogById = async (req, res) => {
 
     try {
         const idBreed = parseInt(req.params.idBreed);
@@ -30,4 +30,4 @@ const getDoyById = async (req, res) => {
 
 }
 
-module.exports = getDoyById;
+module.exports = getDogById;

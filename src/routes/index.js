@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Ejemplo: const authRouter = require('./auth.js');
 const getDogs = require("../controllers/getDogs.js");
 const getTemperaments = require("../controllers/getTemperaments.js");
-const getDoyById = require("../controllers/getDogById.js");
+const getDogById = require("../controllers/getDogById.js");
 const getDogByName = require("../controllers/getDogByName.js");
 const postDog = require("../controllers/postDog.js");
 
@@ -12,7 +12,7 @@ const router = Router();
 router.get("/dogs", getDogs);
 router.get("/temperaments", getTemperaments);
 router.get("/dogs/name", getDogByName);
-router.get("/dogs/:idBreed", getDoyById);
+router.get("/dogs/:idBreed", getDogById);
 router.post("/dogs", postDog);
 
 
