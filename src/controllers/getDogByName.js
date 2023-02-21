@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Dog } = require("../db.js");
+const { Dog, Temperament, DogTemperament } = require("../db.js");
 const { API_KEY } = process.env;
 
 const getDogByName = async (req, res) => {
@@ -27,13 +27,26 @@ const getDogByName = async (req, res) => {
         if (filterBreed.length > 0) {
             return res.status(200).json(filterBreed);
         } else {
-            const searchDogDB = await Dog.findAll();
+            let searchDogDB = await Dog.findAll();
             let filterBreed = [];
             for (let i = 0; i < searchDogDB.length; i++) {
                 let temp = searchDogDB[i].name
                 temp = temp.toUpperCase();
+                let allRelationship = await DogTemperament.findAll();
                 if (temp.includes(beed)) {
-                    filterBreed.push(searchDogDB[i])
+                    let searchRelationship = allRelationship.filter(rel => rel.DogId == searchDogDB[i].id);
+                    let temperament1 = await Temperament.findByPk(searchRelationship[0].TemperamentId);
+                    let temperament2 = await Temperament.findByPk(searchRelationship[1].TemperamentId);
+                    let dogDB = {
+                        id: searchDogDB[i].id,
+                        image: searchDogDB[i].image,
+                        name: searchDogDB[i].name,
+                        height: searchDogDB[i].height,
+                        weight: searchDogDB[i].weight,
+                        life_span: searchDogDB[i].life_span,
+                        temperament: temperament1.name + "," + " " + temperament2.name
+                    }
+                    filterBreed.push(dogDB)
                 }
             }
             if (filterBreed.length > 0) {

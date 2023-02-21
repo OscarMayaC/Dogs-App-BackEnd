@@ -7,25 +7,24 @@ const getDogById = async (req, res) => {
 
     try {
         const idBreed = parseInt(req.params.idBreed);
-        let searchDogApi = await axios(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
-        searchDogApi = searchDogApi.data;
-        const findBreed = searchDogApi.find(breed => breed.id == idBreed);
+        let searchAllDogs = await axios(`http://localhost:3001/dogs`);
+        searchAllDogs = searchAllDogs.data;
+        const findBreed = searchAllDogs.find(breed => breed.id == idBreed);
         if (findBreed) {
             res.status(200).json({
                 id: findBreed.id,
-                image: findBreed.image.url,
+                image: findBreed.image,
                 name: findBreed.name,
-                height: findBreed.height.metric,
-                weight: findBreed.weight.metric,
+                height: findBreed.height,
+                weight: findBreed.weight,
                 life_span: findBreed.life_span,
                 temperaments: findBreed.temperament
             })
         } else {
-            const searchDogDB = await Dog.findByPk(idBreed);
-            res.status(200).json(searchDogDB)
+            res.status(404).json({ error: "This breed of dog does not exist" })
         }
     } catch (error) {
-        res.status(404).json({ error: "This breed of dog does not exist" });
+        res.status(404).json({ error: error.message });
     }
 
 }

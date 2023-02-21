@@ -1,5 +1,6 @@
 const { Dog } = require("../db.js");
 const { Temperament } = require("../db.js");
+const { DogTemperament } = require("../db.js");
 const axios = require("axios");
 
 const postDog = async (req, res) => {
@@ -24,13 +25,17 @@ const postDog = async (req, res) => {
 
         const createDog = await Dog.create(newDog);
         let temperament = req.body.Dog_Temperament;
-        temperament.map(async el => {
-            const findTemp = await Temperament.findAll({
-                where: { name: el }
-            });
-            createDog.addTemperament(findTemp);
+        let allTemperaments = await Temperament.findAll()
+        let findTemperament1 = allTemperaments.find(temp => temp.name == temperament[0]);
+        let findTemperament2 = allTemperaments.find(temp => temp.name == temperament[1]);
+        await DogTemperament.create({
+            DogId: createDog.id,
+            TemperamentId: findTemperament1.id,
         })
-
+        await DogTemperament.create({
+            DogId: createDog.id,
+            TemperamentId: findTemperament2.id
+        })
 
         res.status(201).json(createDog);
 
