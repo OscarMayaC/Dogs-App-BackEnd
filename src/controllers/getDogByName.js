@@ -24,37 +24,31 @@ const getDogByName = async (req, res) => {
                 })
             }
         }
-        if (filterBreed.length > 0) {
-            return res.status(200).json(filterBreed);
-        } else {
-            let searchDogDB = await Dog.findAll();
-            let filterBreed = [];
-            for (let i = 0; i < searchDogDB.length; i++) {
-                let temp = searchDogDB[i].name
-                temp = temp.toUpperCase();
-                let allRelationship = await DogTemperament.findAll();
-                if (temp.includes(beed)) {
-                    let searchRelationship = allRelationship.filter(rel => rel.DogId == searchDogDB[i].id);
-                    let temperament1 = await Temperament.findByPk(searchRelationship[0].TemperamentId);
-                    let temperament2 = await Temperament.findByPk(searchRelationship[1].TemperamentId);
-                    let dogDB = {
-                        id: searchDogDB[i].id,
-                        image: searchDogDB[i].image,
-                        name: searchDogDB[i].name,
-                        height: searchDogDB[i].height,
-                        weight: searchDogDB[i].weight,
-                        life_span: searchDogDB[i].life_span,
-                        temperament: temperament1.name + "," + " " + temperament2.name
-                    }
-                    filterBreed.push(dogDB)
+        let searchDogDB = await Dog.findAll();
+        for (let i = 0; i < searchDogDB.length; i++) {
+            let temp = searchDogDB[i].name
+            temp = temp.toUpperCase();
+            let allRelationship = await DogTemperament.findAll();
+            if (temp.includes(beed)) {
+                let searchRelationship = allRelationship.filter(rel => rel.DogId == searchDogDB[i].id);
+                let temperament1 = await Temperament.findByPk(searchRelationship[0].TemperamentId);
+                let temperament2 = await Temperament.findByPk(searchRelationship[1].TemperamentId);
+                let dogDB = {
+                    id: searchDogDB[i].id,
+                    image: searchDogDB[i].image,
+                    name: searchDogDB[i].name,
+                    height: searchDogDB[i].height,
+                    weight: searchDogDB[i].weight,
+                    life_span: searchDogDB[i].life_span,
+                    temperament: temperament1.name + "," + " " + temperament2.name
                 }
+                filterBreed.push(dogDB)
             }
-            if (filterBreed.length > 0) {
-                res.status(200).json(filterBreed);
-            } else {
-                res.status(404).json({ error: "This breed of dog does not exist" });
-            }
-
+        }
+        if (filterBreed.length > 0) {
+            res.status(200).json(filterBreed);
+        } else {
+            res.status(404).json({ error: "This breed of dog does not exist" })
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
