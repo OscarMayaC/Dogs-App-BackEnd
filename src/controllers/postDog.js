@@ -18,8 +18,7 @@ const postDog = async (req, res) => {
             name: req.body.name,
             height: req.body.height,
             weight: req.body.weight,
-            life_span: req.body.life_span,
-            // Dog_Temperament: req.body.Dog_Temperament
+            life_span: req.body.life_span,       
         }
 
 
@@ -40,7 +39,7 @@ const postDog = async (req, res) => {
         res.status(201).json(createDog);
 
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(500).json({ error: error.message })
     }
 }
 

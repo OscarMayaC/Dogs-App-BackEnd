@@ -19,7 +19,7 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const saveDataApi = require("./src/controllers/saveDataApi.js");
+// const saveDataApi = require("./src/controllers/saveDataApi.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(async () => {
