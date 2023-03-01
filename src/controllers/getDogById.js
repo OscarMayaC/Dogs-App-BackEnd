@@ -1,6 +1,5 @@
 const axios = require("axios");
-const { Dog } = require("../db.js");
-const { API_KEY } = process.env;
+
 
 
 const getDogById = async (req, res) => {
