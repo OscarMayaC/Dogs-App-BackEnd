@@ -19,6 +19,7 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const port = process.env.PORT || 3001;
 // const saveDataApi = require("./src/controllers/saveDataApi.js");
 
 // Syncing all the models at once.
@@ -26,8 +27,8 @@ conn.sync({ force: true }).then(async () => {
   // console.log(await saveDataApi())
   // await saveDataApi();
   console.log("Data Base Connect")
-  server.listen(3001, () => {
-    console.log('BackEnd in port 3001'); // eslint-disable-line no-console
+  server.listen(port, () => {
+    console.log('BackEnd in port', port); // eslint-disable-line no-console
   });
 }).catch((error) => {
   console.log(error);
